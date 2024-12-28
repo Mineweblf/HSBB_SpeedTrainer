@@ -30,9 +30,4 @@
 你可以使用占位符文件来代替实际的游戏资源文件。  
 **You can use the placeholder files to replace the actual game asset files.**
 
-## 使用方法 / **Usage Instructions**
-
- . 下载游戏资源到 `assets/cards` 文件夹。  
-    **Download and extract the game resources into the `assets/cards` folder.**
-
 
