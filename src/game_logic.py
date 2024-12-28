@@ -18,7 +18,7 @@ class GameLogic:
 
     def get_last_game_id(self):
         try:
-            file_path = os.path.join(os.getcwd(), 'data', 'game_data.csv')
+            file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'game_data.csv')
             with open(file_path, mode='r', encoding='utf-8') as file:
                 reader = csv.reader(file)
                 next(reader)  # 跳过标题行
@@ -58,9 +58,8 @@ class GameLogic:
 
     def save_game_data(self, correct, correct_total, page_accuracy, avg_accuracy, page_time, correct_files):
         page = len(self.game_data) + 1
-        print(f"Saving game data - Correct: {correct}")  # 添加打印语句
         self.game_data.append([self.game_id, page, correct, correct_total, page_accuracy, avg_accuracy, page_time])
-        file_path = os.path.join(os.getcwd(), 'data', 'game_data.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'game_data.csv')
         with open(file_path, mode='a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             if file.tell() == 0:  # 检查文件是否为空
@@ -68,7 +67,7 @@ class GameLogic:
             writer.writerow([self.game_id, page, correct, correct_total, page_accuracy, avg_accuracy, page_time])
 
     def save_final_game_data(self):
-        file_path = os.path.join(os.getcwd(), 'data', 'game_data.csv')
+        file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'game_data.csv')
         with open(file_path, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow(["Game ID", "Page", "Correct", "Correct Total", "Page Accuracy", "Average Accuracy", "Page Time"])
@@ -80,13 +79,11 @@ class GameLogic:
         return total_accuracy / (len([data for data in self.game_data if data[0] == self.game_id]) + 1)
 
     def generate_cards(self, tavern_level, mode):
-        # 生成卡牌逻辑
         cards = []
         minion_count = {1: 3, 2: 3, 3: 4, 4: 4, 5: 5, 6: 6}.get(tavern_level, 0)
         
-        # 添加随从牌
         available_minions = []
-        minions_path = os.path.join(os.getcwd(), 'assets', 'cards', 'Minions')
+        minions_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'cards', 'Minions')
         suffixes = ["1"] if mode == "单人" else ["1", "2"]
         for level in range(1, tavern_level + 1):
             for race in self.current_races:
@@ -95,13 +92,12 @@ class GameLogic:
                                     if f.startswith(f"{level}_{race}_Minion{suffix}") or f.startswith(f"{level}_全部_Minion{suffix}") or f.startswith(f"{level}_无种族_Minion{suffix}")]
                     available_minions.extend(minion_files)
         
-        minion_count = min(minion_count, len(available_minions))  # 避免小兵数量超过可用数量
+        minion_count = min(minion_count, len(available_minions))
         cards.extend([("Minions", card) for card in random.sample(available_minions, minion_count)])
 
-        # 添加酒馆法术
         spell_files = []
-        spells_path = os.path.join(os.getcwd(), 'assets', 'cards', 'Spell')
-        for level in range(1, tavern_level + 1):  # 包括当前等级及更低等级的所有卡
+        spells_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'cards', 'Spell')
+        for level in range(1, tavern_level + 1):
             for race in self.current_races:
                 for suffix in suffixes:
                     spell_files.extend([f for f in os.listdir(spells_path) 
@@ -111,6 +107,5 @@ class GameLogic:
             cards.append(("Spell", selected_spell))
         
         return cards
-
     def get_game_data(self):
         return self.game_data

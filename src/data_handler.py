@@ -3,7 +3,7 @@ import os
 
 class DataHandler:
     def __init__(self, file_path):
-        self.file_path = os.path.join(os.getcwd(), file_path)
+        self.file_path = os.path.join(os.path.dirname(__file__), '..', file_path)
 
     def save_data(self, data):
         with open(self.file_path, mode='a', newline='') as file:

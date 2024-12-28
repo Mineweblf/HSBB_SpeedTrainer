@@ -30,9 +30,10 @@ def refresh_cards(main_window):
             continue  # 如果卡牌类型不是 Minions 或 Spell，跳过
 
         # 拼接卡牌路径
-        card_path = os.path.join(os.getcwd(), 'assets', 'cards', folder, card_file)
+        card_path = os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'cards', folder, card_file)
         
         # 调试：打印拼接后的路径，查看路径是否正确
+        print(f"卡牌路径: {card_path}")
 
         # 检查文件是否存在
         if not os.path.exists(card_path):

@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.selected_cards = set()
 
         self.game_logic = GameLogic()
-        self.data_handler = DataHandler('data/game_data.csv')
+        self.data_handler = DataHandler(os.path.join('..', 'data', 'game_data.csv'))
 
         # 主窗口部件
         central_widget = QWidget()
